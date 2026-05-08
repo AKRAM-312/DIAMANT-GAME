@@ -15,8 +15,8 @@ rubis_jeu=["1", "2", "3", "4", "5", "5", "7", "9","11", "13", "14", "15", "17"]
 # fonction qui tire une carte aleatoirement
 
 def tire_carte(cartes):
-    random.shuffle(reliques)
-    return reliques[0]
+    random.shuffle(cartes)
+    return cartes[0]
 
 # fonction qui permet de retirer la carte du jeu 
 
@@ -97,7 +97,7 @@ def transfere_sac_coffre(joueurs , joueurs_sorti , nb_manche):
                 joueurs[j]["coffre"][nb_manche-1]+=joueurs[j]["sac"]
                 
 
-def distribution_relique(joueurs_sorti , relique_de_cote , joueurs , num_manche ):
+def distribution_relique(joueurs_sorti , relique_de_cote , joueurs , num_manche ,defausse ):
     if  un_joueur_sorti(joueurs_sorti)==True and len(relique_de_cote)>=1 :
             for j in range(len(relique_de_cote)):
                 for k in joueurs:
@@ -106,11 +106,16 @@ def distribution_relique(joueurs_sorti , relique_de_cote , joueurs , num_manche 
                             k["coffre"][num_manche-1]+=int(relique_de_cote[j][2])
                         else:
                             k["coffre"][num_manche-1]+= ( int(relique_de_cote[j][2])*10 + int(relique_de_cote[j][3]) )
-            relique_de_cote=[]
-
-
-def distribution_des_rubis_au_sol(joueurs , joueurs_sorti , nb_joueurs , num_manche , rubis_au_sol ):
-    for j in joueurs:
-        if j in joueurs_sorti:
-            j["sac"][num_manche-1]+=rubis_au_sol[0] // nb_joueurs
+                # on enleve la carte relique de la defausse puisqu'elle a etait deja utiliser et pour quelle soit pas utiliser dans les manches suivantes
+                defausse.remove(relique_de_cote[j])
             
+
+
+def distribution_des_rubis_au_sol(joueurs , joueurs_sorti   , rubis_au_sol ):
+    if len(joueurs_sorti)>0:
+        for j in joueurs:
+            if j in joueurs_sorti:
+                j["sac"]+=rubis_au_sol[0] // len(joueurs_sorti)
+        rubis_au_sol[0] = rubis_au_sol[0] % len(joueurs_sorti)
+        print(f"il reste {rubis_au_sol[0]} rubis au sol")   
+        

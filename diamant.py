@@ -99,18 +99,18 @@ for i in range(1,6):
 
             # distribution des points de reliques si sorti  
 
-            df.distribution_relique(joueurs_sorti ,  relique_de_cote , joueurs , i)  # i cest le numero de manche
+            df.distribution_relique(joueurs_sorti ,  relique_de_cote , joueurs , i , defausse)  # i cest le numero de manche
+            relique_de_cote=[]
 
             # distribution des rubis au sol 
-            df.distribution_des_rubis_au_sol(joueurs , joueurs_sorti , nb_joueur , i-1 ,rubis_au_sol)
-            # on enleve la carte relique de la defausse puisqu'elle a etait deja utiliser et pour quelle soit pas utiliser dans les manches suivantes
-            defausse.remove(carte_tirer)
+            df.distribution_des_rubis_au_sol(joueurs , joueurs_sorti  ,rubis_au_sol)
+            
     
             
         # ce if determine si tout les joueurs sont sorti ou pas
         if df.tous_sorti(joueurs)==True :
             joueurs_active=False
-
+    
 
     # on met le contenu du sac dans le coffre si le joueur est sorti
 
@@ -125,11 +125,12 @@ for i in range(1,6):
     
     df.remettre_carte(carte_jeu , defausse)
     
-    #on remet la defausse en une liste vide pour pouvoir l'utiliser dans la autres manches
+    #on remet toutes les listes utiliser durant une manche en une liste vide afin de les utiliser dans la autres manches
     
     defausse=[]
     joueurs_sorti=[]
     relique_de_cote=[]
+    rubis_au_sol[0]=0
  
 
 
