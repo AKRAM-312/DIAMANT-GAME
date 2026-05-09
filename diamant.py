@@ -131,6 +131,11 @@ for i in range(1,6):
     joueurs_sorti=[]
     relique_de_cote=[]
     rubis_au_sol[0]=0
+
+
+print("-----------------LA PARTIE EST TERMINE--------------------")
+print(f"LE GAGNANT DE LA PARTIE EST  :  {df.design_gagnant(joueurs)[0]} AVEC UN TOTAL DE {df.design_gagnant(joueurs)[1]} !!!!!")
+
  
 
 

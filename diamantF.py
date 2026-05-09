@@ -118,4 +118,13 @@ def distribution_des_rubis_au_sol(joueurs , joueurs_sorti   , rubis_au_sol ):
                 j["sac"]+=rubis_au_sol[0] // len(joueurs_sorti)
         rubis_au_sol[0] = rubis_au_sol[0] % len(joueurs_sorti)
         print(f"il reste {rubis_au_sol[0]} rubis au sol")   
-        
+
+
+def design_gagnant(joueurs):
+    max_point=0
+    for i in joueurs :
+       if sum(i["coffre"])>max:
+           max_point=sum(i["coffre"])
+           nom_gagnant=i["nom"]
+    return nom_gagnant , max 
+           
