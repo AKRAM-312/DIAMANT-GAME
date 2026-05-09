@@ -22,7 +22,7 @@ for i in range(nb_joueurs_total):
 carte_jeu=df.cartes
 
 # on commence le jeu 
-for i in range(1,6):
+for i in range(1):
     print(f"La manche {i} commence ")
 
     # On ajoute la relique au cartes
@@ -66,8 +66,6 @@ for i in range(1,6):
 
             # distribution des rubis en cas de carte rubis tiré
             df.rubis(carte_tirer , nb_joueur ,rubis_au_sol ,joueurs , i-1 )
-            
-            
 
         elif carte_tirer in df.reliques :
 
@@ -80,6 +78,7 @@ for i in range(1,6):
                 for j in joueurs : 
                     j["sac"]=0
                 piege_double=True
+                print()
             else :
                 piege.append(carte_tirer)
                 
@@ -110,11 +109,9 @@ for i in range(1,6):
         # ce if determine si tout les joueurs sont sorti ou pas
         if df.tous_sorti(joueurs)==True :
             joueurs_active=False
-    
-
-    # on met le contenu du sac dans le coffre si le joueur est sorti
-
-    df.transfere_sac_coffre(joueurs , joueurs_sorti , i)
+            
+        # on met le contenu du sac dans le coffre si le joueur est sorti
+        df.transfere_sac_coffre(joueurs , joueurs_sorti , i)
         
     print("voici le contenu de vos coffre : ")
     # on affiche les coffres de tout les joueurs et on remet tout les joueurs actif
@@ -125,16 +122,15 @@ for i in range(1,6):
     
     df.remettre_carte(carte_jeu , defausse)
     
-    #on remet toutes les listes utiliser durant une manche en une liste vide afin de les utiliser dans la autres manches
     
-    defausse=[]
-    joueurs_sorti=[]
-    relique_de_cote=[]
-    rubis_au_sol[0]=0
 
 
 print("-----------------LA PARTIE EST TERMINE--------------------")
-print(f"LE GAGNANT DE LA PARTIE EST  :  {df.design_gagnant(joueurs)[0]} AVEC UN TOTAL DE {df.design_gagnant(joueurs)[1]} !!!!!")
+if df.design_gagnant(joueurs)[1] != 0:
+    print(f"LE GAGNANT DE LA PARTIE EST  :  {df.design_gagnant(joueurs)[0]} AVEC UN TOTAL DE {df.design_gagnant(joueurs)[1]} !!!!!")
+else:
+    print("--------TOUT LES JOUEURS ONT 0 POINTS-----------------")
+    print("--------PERSONNE N'A GAGNE----------------")
 
  
 

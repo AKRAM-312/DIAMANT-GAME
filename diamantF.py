@@ -40,19 +40,21 @@ def tous_sorti (joueurs):
 def rubis (cartes_tirer , nb_joueurs , rubis_au_sol,joueurs ,nb_manche):
 
     # on voit si le nombre de rubis est inferieur au nombre de joueur si cest le cas on les laisse au sol 
-    if int(cartes_tirer) < int(nb_joueurs) :
+    if int(cartes_tirer) < nb_joueurs :
         rubis_au_sol[0]+=int(cartes_tirer)
         rubis_a_partager=0
     else:
 
         # la on met le reste des rubis au sol grace au mod
-        rubis_au_sol[0]+=( int(cartes_tirer) % int(nb_joueurs) )
+        rubis_au_sol[0]+=( int(cartes_tirer) % nb_joueurs)
         
         # et la on stock le nombre de rubis qui seront partager 
-        rubis_a_partager=  int(cartes_tirer)//int(nb_joueurs)
+        rubis_a_partager=  int(cartes_tirer)// nb_joueurs
+        print(f"--------------RUBIS QUI VONT ETRE PARTAGER: {rubis_a_partager}")
 
     for i in joueurs : 
-        i["sac"]+=rubis_a_partager
+        if(i["is_active"]==True):
+            i["sac"]+=rubis_a_partager
 
 # fonction  qui demande aux joueurs qui sont en pleine expedition si ils veulent retourner ou pas a la grotte
 def continu(joueurs ,nb_joueur , joueur_sorti):
@@ -67,11 +69,7 @@ def continu(joueurs ,nb_joueur , joueur_sorti):
                 print(f"{joueurs[i]['nom']} sort de l'éxpédition")
     return nb_joueur
 
-def piege_double(carte_tirer , piege, joueurs , nb_manche):
-    if carte_tirer in piege :
-        for i in joueurs : 
-            if i["is_active"]==True :
-                i["coffre"][nb_manche]=0
+
 
 # fonction qui determine si un seul joueur est sorti durant la manche
 def un_joueur_sorti(joueurs_sorti ):
@@ -84,7 +82,7 @@ def affiche_coffre (joueurs):
     for j in range(len(joueurs)) :
         print(joueurs[j]["nom"] , " : ",joueurs[j]["coffre"] )
         joueurs[j]["is_active"]=True
-        joueurs[j]["sac"]=0
+
 
 def remettre_carte(carte_jeu , defausse):
     for j in defausse:
@@ -95,6 +93,7 @@ def transfere_sac_coffre(joueurs , joueurs_sorti , nb_manche):
     for j in range(len(joueurs)):
             if joueurs[j]["is_active"]==False:
                 joueurs[j]["coffre"][nb_manche-1]+=joueurs[j]["sac"]
+                joueurs[j]["sac"]=0
                 
 
 def distribution_relique(joueurs_sorti , relique_de_cote , joueurs , num_manche ,defausse ):
@@ -121,10 +120,10 @@ def distribution_des_rubis_au_sol(joueurs , joueurs_sorti   , rubis_au_sol ):
 
 
 def design_gagnant(joueurs):
-    max_point=0
+    max_point=-1
     for i in joueurs :
-       if sum(i["coffre"])>max:
+       if sum(i["coffre"])> max_point :
            max_point=sum(i["coffre"])
            nom_gagnant=i["nom"]
-    return nom_gagnant , max 
+    return nom_gagnant , max_point 
            
