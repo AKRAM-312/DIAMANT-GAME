@@ -22,8 +22,9 @@ for i in range(nb_joueurs_total):
 carte_jeu=df.cartes.copy()
 
 # on commence le jeu 
+print("-----------------------------------LA PARTIE COMMENCE---------------------")
 for i in range(1,6):
-    print(f"La manche {i} commence ")
+    print(f"\n---------------------------LA MANCHE {i} COMMENCE---------------------- ")
 
     # On ajoute la relique au cartes
 
@@ -59,7 +60,7 @@ for i in range(1,6):
 
         carte_jeu.pop(0)
         
-        print(f"Voici la carte qui a été tirer : {carte_tirer}")
+        print(f"----Voici la carte qui a été tirer : {carte_tirer} \n")
         
 
         if carte_tirer in  df.rubis_jeu :
@@ -89,7 +90,7 @@ for i in range(1,6):
 
             # la decision des joueurs continuer ou revenir vers la grotte
             if len(defausse)>=1 :
-                print(f"Voici les cartes qui sont sorti : {defausse}  PENSEZ BIEN AVANT D'AGIR!!!!")
+                print(f"----------Voici les cartes qui sont sorti : {defausse}  PENSEZ BIEN AVANT D'AGIR!!!! \n")
             nb_joueur=df.continu(joueurs,nb_joueur,joueurs_sorti)
             print(nb_joueur)
 
@@ -123,16 +124,16 @@ for i in range(1,6):
     df.remettre_carte(carte_jeu , defausse)
     
     
-print("-------------------------------LA DERNIERE MANCHE EST TERMINE-----------------------------------")
+print("-------------------------------LA DERNIERE MANCHE EST TERMINÉ-----------------------------------")
 
 
 if df.design_gagnant(joueurs)[2] != nb_joueurs_total:
-    print(f"LE GAGNANT DE LA PARTIE EST  :  {df.design_gagnant(joueurs)[0]} AVEC UN TOTAL DE {df.design_gagnant(joueurs)[1]} !!!!!")
+    print(f"\nLE GAGNANT DE LA PARTIE EST  :  {df.design_gagnant(joueurs)[0]} AVEC UN TOTAL DE {df.design_gagnant(joueurs)[1]} POINTS !!!!!")
 else:
-    print("--------TOUT LES JOUEURS ONT LES MEMES POINTS-----------------")
-    print("----------------PERSONNE N'A GAGNE----------------------------")
+    print("\n--------TOUT LES JOUEURS ONT LES MEMES POINTS-----------------")
+    print("----------------PERSONNE N'A GAGNÉ----------------------------")
     
-print("\n-------------LA PARTIE EST TERMINE!!!!!!!!!!!!!!!------------- ")
+print("\n-------------LA PARTIE EST TERMINÉ!!!!!!!!!!!!!!!------------- ")
 
  
 
