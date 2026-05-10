@@ -19,10 +19,10 @@ for i in range(nb_joueurs_total):
     
 
 # lot de cartes de jeu 
-carte_jeu=df.cartes
+carte_jeu=df.cartes.copy()
 
 # on commence le jeu 
-for i in range(1):
+for i in range(1,6):
     print(f"La manche {i} commence ")
 
     # On ajoute la relique au cartes
@@ -99,7 +99,7 @@ for i in range(1):
             # distribution des points de reliques si sorti  
 
             df.distribution_relique(joueurs_sorti ,  relique_de_cote , joueurs , i , defausse)  # i cest le numero de manche
-            relique_de_cote=[]
+            
 
             # distribution des rubis au sol 
             df.distribution_des_rubis_au_sol(joueurs , joueurs_sorti  ,rubis_au_sol)
@@ -123,14 +123,16 @@ for i in range(1):
     df.remettre_carte(carte_jeu , defausse)
     
     
+print("-------------------------------LA DERNIERE MANCHE EST TERMINE-----------------------------------")
 
 
-print("-----------------LA PARTIE EST TERMINE--------------------")
-if df.design_gagnant(joueurs)[1] != 0:
+if df.design_gagnant(joueurs)[2] != nb_joueurs_total:
     print(f"LE GAGNANT DE LA PARTIE EST  :  {df.design_gagnant(joueurs)[0]} AVEC UN TOTAL DE {df.design_gagnant(joueurs)[1]} !!!!!")
 else:
-    print("--------TOUT LES JOUEURS ONT 0 POINTS-----------------")
-    print("--------PERSONNE N'A GAGNE----------------")
+    print("--------TOUT LES JOUEURS ONT LES MEMES POINTS-----------------")
+    print("----------------PERSONNE N'A GAGNE----------------------------")
+    
+print("\n-------------LA PARTIE EST TERMINE!!!!!!!!!!!!!!!------------- ")
 
  
 

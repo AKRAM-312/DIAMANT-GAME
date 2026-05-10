@@ -107,6 +107,7 @@ def distribution_relique(joueurs_sorti , relique_de_cote , joueurs , num_manche 
                             k["coffre"][num_manche-1]+= ( int(relique_de_cote[j][2])*10 + int(relique_de_cote[j][3]) )
                 # on enleve la carte relique de la defausse puisqu'elle a etait deja utiliser et pour quelle soit pas utiliser dans les manches suivantes
                 defausse.remove(relique_de_cote[j])
+            relique_de_cote.clear()
             
 
 
@@ -119,11 +120,15 @@ def distribution_des_rubis_au_sol(joueurs , joueurs_sorti   , rubis_au_sol ):
         print(f"il reste {rubis_au_sol[0]} rubis au sol")   
 
 
-def design_gagnant(joueurs):
+def design_gagnant(joueurs ):
     max_point=-1
+    score_egaux=1
     for i in joueurs :
-       if sum(i["coffre"])> max_point :
+        if sum(i["coffre"]) == max_point:
+            score_egaux+=1
+        elif sum(i["coffre"])> max_point  :
            max_point=sum(i["coffre"])
            nom_gagnant=i["nom"]
-    return nom_gagnant , max_point 
+           score_egaux = 1
+    return nom_gagnant , max_point , score_egaux
            
