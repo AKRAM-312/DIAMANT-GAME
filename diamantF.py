@@ -1,4 +1,6 @@
 import random
+import strategie as strat
+
 cartes = ["1", "2", "3", "4", "5", "5", "7", "7", "9", "11", "11", "13", "14", "15", "17", 
                 "serpents", "boulets", "pics", "araignées", "lave",
                 "serpents", "boulets", "pics", "araignées", "lave",
@@ -10,7 +12,7 @@ rubis_jeu=["1", "2", "3", "4", "5", "5", "7", "9","11", "13", "14", "15", "17"]
 
 
 
-
+ma_strat=strat.ktourStrategy()
 
 # fonction qui tire une carte aleatoirement
 
@@ -69,6 +71,24 @@ def continu(joueurs ,nb_joueur , joueur_sorti):
                 print(f"{joueurs[i]['nom']} sort de l'éxpédition")
     return nb_joueur
 
+
+
+def continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol,num_manche ,cartes_jeu,defausse ):
+    for i in range(len(joueurs)):
+        if joueurs[i]["is_active"]==True  : 
+            if joueurs[i]["nom"]=="IA" :
+                continu=ma_strat.play(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
+            else:
+                continu=input(f"{joueurs[i]['nom']} voulez vous continuer lexpedition ? ")
+
+            if continu == True or continu=="Non" :
+                joueurs_sorti.append(joueurs[i])
+                joueurs[i]["is_active"]=False
+                nb_joueur-=1
+                print(f"{joueurs[i]['nom']} sort de l'éxpédition")
+            
+    return nb_joueur
+    
 
 
 # fonction qui determine si un seul joueur est sorti durant la manche
