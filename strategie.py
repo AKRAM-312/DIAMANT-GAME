@@ -18,3 +18,26 @@ class ktourStrategy:
              defausse # ce qui est déjà joué comme cartes
             ):
          return len(defausse) > 4
+     
+     
+     
+class strategie_test1:
+    def __init__(self):
+        pass
+    def chill(self , mon_coffre , mon_sac , rubis_au_sol  , id_manche , les_joueurs , tas_tri , defausse):
+        if mon_sac >= 10 or df.compte_nb_piege(defausse)>=2 :
+            return False
+        else: 
+            return True
+
+    def ambitieux(self , mon_coffre , mon_sac , rubis_au_sol  , id_manche , les_joueurs , tas_tri , defausse):
+        if len(defausse) < 8 :
+            return True
+        else : 
+            return False
+    
+    def suis(self , mon_coffre , mon_sac , rubis_au_sol  , id_manche , les_joueurs , tas_tri , defausse):
+        if df.nombre_joueurs_sorti(les_joueurs)==len(les_joueurs)//2:
+            return False
+        else: 
+            return True
