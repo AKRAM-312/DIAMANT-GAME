@@ -7,12 +7,12 @@ cartes = ["1", "2", "3", "4", "5", "5", "7", "7", "9", "11", "11", "13", "14", "
                 "serpents", "boulets", "pics", "araignées", "lave"]
 
 reliques = ["R_5","R_7","R_8","R_10","R_12"]
-
+piege=["serpents", "boulets", "pics", "araignées", "lave"]
 rubis_jeu=["1", "2", "3", "4", "5", "5", "7", "9","11", "13", "14", "15", "17"] 
 
 
 
-ma_strat=strat.ktourStrategy()
+ma_strat=strat.strategie_test1()
 
 # fonction qui tire une carte aleatoirement
 
@@ -52,7 +52,7 @@ def rubis (cartes_tirer , nb_joueurs , rubis_au_sol,joueurs ,nb_manche):
         
         # et la on stock le nombre de rubis qui seront partager 
         rubis_a_partager=  int(cartes_tirer)// nb_joueurs
-        print(f"--------------RUBIS QUI VONT ETRE PARTAGER: {rubis_a_partager}")
+        #print(f"--------------RUBIS QUI VONT ETRE PARTAGER: {rubis_a_partager}")
 
     for i in joueurs : 
         if(i["is_active"]==True):
@@ -74,18 +74,24 @@ def continu(joueurs ,nb_joueur , joueur_sorti):
 
 
 def continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol,num_manche ,cartes_jeu,defausse ):
+    simultaner=[]
     for i in range(len(joueurs)):
         if joueurs[i]["is_active"]==True  : 
-            if joueurs[i]["nom"]=="IA" :
-                continu=ma_strat.play(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
+            if joueurs[i]["strat"]=="chill" :
+                continu=ma_strat.chill(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
+            elif joueurs[i]["strat"]=="ambitieux":
+                continu=ma_strat.ambitieux(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
             else:
-                continu=input(f"{joueurs[i]['nom']} voulez vous continuer lexpedition ? ")
+                continu=ma_strat.suis(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
 
-            if continu == True or continu=="Non" :
+            if continu == False or continu=="Non" :
                 joueurs_sorti.append(joueurs[i])
-                joueurs[i]["is_active"]=False
                 nb_joueur-=1
-                print(f"{joueurs[i]['nom']} sort de l'éxpédition")
+    for j in joueurs :
+        if j in joueurs_sorti :
+            j["is_active"]=False
+        
+            
             
     return nb_joueur
     
@@ -137,18 +143,43 @@ def distribution_des_rubis_au_sol(joueurs , joueurs_sorti   , rubis_au_sol ):
             if j in joueurs_sorti:
                 j["sac"]+=rubis_au_sol[0] // len(joueurs_sorti)
         rubis_au_sol[0] = rubis_au_sol[0] % len(joueurs_sorti)
-        print(f"il reste {rubis_au_sol[0]} rubis au sol")   
+        #print(f"il reste {rubis_au_sol[0]} rubis au sol")   
 
 
 def design_gagnant(joueurs ):
     max_point=-1
     score_egaux=1
+    strat_gagnant=""
     for i in joueurs :
         if sum(i["coffre"]) == max_point:
             score_egaux+=1
         elif sum(i["coffre"])> max_point  :
            max_point=sum(i["coffre"])
            nom_gagnant=i["nom"]
+           strat_gagnant=i["strat"]
            score_egaux = 1
-    return nom_gagnant , max_point , score_egaux
+    return nom_gagnant , max_point , score_egaux ,strat_gagnant
            
+           
+           
+def tous_sorti_sauf(joueurs , nom_joueur ):
+    nb=0
+    for i in joueurs :
+        if i["nom"]!=nom_joueur and i["is_active"]==False :
+            nb+=1
+    return nb == len(joueurs)-1
+
+
+def compte_nb_piege(defausse):
+    nb=0
+    for j in defausse:
+        if j in piege :
+            nb+=1
+    return nb
+
+def nombre_joueurs_sorti(joueurs):
+    nb=0
+    for j in joueurs:
+        if j["is_active"]==False : 
+            nb+=1
+    return nb
