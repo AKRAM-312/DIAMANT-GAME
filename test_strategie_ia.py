@@ -2,10 +2,10 @@ import diamantF as df
 
 
 printing=False
-nb_joueurs_total=3
+nb_joueurs_total=4
 
-point_strat={"chill" : 0 , "ambitieux" : 0 , "suis" : 0}
-strat=["chill" , "ambitieux" , "suis"]
+point_strat={"chill" : 0 , "ambitieux" : 0 , "suis" : 0 , "abs":0}
+strat=["chill" , "ambitieux" , "suis" , "abs"]
 carte_jeu=df.cartes.copy()
 joueurs=[]
 for i in range(nb_joueurs_total):
@@ -99,7 +99,7 @@ for p in range(0,10000):
         
             if piege_double == False :
                 
-                nb_joueur=df.continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol , i-1 ,carte_jeu , defausse)
+                nb_joueur=df.continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol , i-1 ,carte_jeu , defausse ,relique_de_cote)
                 
 
                     
@@ -127,8 +127,10 @@ for p in range(0,10000):
         point_strat["chill"]+=1
     elif df.design_gagnant(joueurs)[3]=="ambitieux" :
         point_strat["ambitieux"]+=1
-    else:
+    elif df.design_gagnant(joueurs)[3]=="suis":
         point_strat["suis"]+=1
+    else:
+        point_strat["abs"]+=1
 
 
 for j in range(len(point_strat)):
