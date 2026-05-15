@@ -13,6 +13,7 @@ rubis_jeu=["1", "2", "3", "4", "5", "5", "7", "9","11", "13", "14", "15", "17"]
 
 
 ma_strat=strat.strategie_test1()
+strat_abs=strat.strat_abs()
 
 # fonction qui tire une carte aleatoirement
 
@@ -73,7 +74,7 @@ def continu(joueurs ,nb_joueur , joueur_sorti):
 
 
 
-def continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol,num_manche ,cartes_jeu,defausse ):
+def continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol,num_manche ,cartes_jeu,defausse , relique_de_cote ):
     simultaner=[]
     for i in range(len(joueurs)):
         if joueurs[i]["is_active"]==True  : 
@@ -81,9 +82,10 @@ def continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol,num_manche 
                 continu=ma_strat.chill(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
             elif joueurs[i]["strat"]=="ambitieux":
                 continu=ma_strat.ambitieux(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
-            else:
+            elif joueurs[i]["strat"]=="suis":
                 continu=ma_strat.suis(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
-
+            else:
+                continu=strat_abs.play(joueurs[i]["coffre"] , joueurs[i]["sac"],rubis_au_sol , num_manche , joueurs , cartes_jeu , defausse , relique_de_cote ,nb_joueur)
             if continu == False or continu=="Non" :
                 joueurs_sorti.append(joueurs[i])
                 nb_joueur-=1
@@ -205,17 +207,18 @@ def calcul_gain_possible( sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort
                     gain_relique+=int(relique_de_cote[j][2])
                 else:
                     gain_relique+= ( int(relique_de_cote[j][2])*10 + int(relique_de_cote[j][3]) )
-        return sac+rubis_au_sol+gain_relique 
+        return sac+rubis_au_sol[0]+gain_relique 
     else:    # SINON LES RUBIS SERONT PARTAGER 
-        return sac+(rubis_au_sol // nb_joueurs_sortant_probable+1)
+        return sac+(rubis_au_sol[0] // nb_joueurs_sortant_probable+1)
     
     
-def prise_risque(joueurs , mon_coffre):
-    for j in joueurs:
-        if sum(j["coffre"])-sum(mon_coffre)>=10 : # J'AI MIS L'ECART A 10 POUR L'INSTANT CELA POURRAIT CHANGER AVEC LES TEST
-            return True
-        else: 
-            return False
+def prise_risque(joueurs , mon_coffre , id_manche):
+    if(id_manche == 5):
+        for j in joueurs:
+            if sum(j["coffre"])-sum(mon_coffre)>=10  : # J'AI MIS L'ECART A 10 POUR L'INSTANT CELA POURRAIT CHANGER AVEC LES TEST
+             return True
+            else: 
+                return False
 
 
 
@@ -244,7 +247,7 @@ def estimation_sorti_joueurs(joueurs , defausse , num_manche , rubis_au_sol ,rel
     if compte_rubis_sorti(defausse)>=5:# ICI ON ESTIME QUE LES AUTRES JOUEURS NE SONT PAS TROP GOURMAND
         return 1 
     
-    if rubis_au_sol > 6 and len(relique_de_cote)>=1  :
+    if rubis_au_sol[0] > 6 and len(relique_de_cote)>=1  :
         return 1
     
     
