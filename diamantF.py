@@ -197,7 +197,7 @@ def proba_mort(defausse , carte_rest):
 
 def calcul_gain_possible( sac , rubis_au_sol , relique_de_cote , nb_joueurs_sortant_probable ):
 
-    if nb_joueurs_sortant_probable==0 :
+    if nb_joueurs_sortant_probable==0 : # SI AUCUN JOUEUR NE SORT ON PRENDRA LES RELIQUE SI ACTIF
         gain_relique=0
         if len(relique_de_cote)>=1:
             for j in range(len(relique_de_cote)):
@@ -206,13 +206,13 @@ def calcul_gain_possible( sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort
                 else:
                     gain_relique+= ( int(relique_de_cote[j][2])*10 + int(relique_de_cote[j][3]) )
         return sac+rubis_au_sol+gain_relique 
-    else:
+    else:    # SINON LES RUBIS SERONT PARTAGER 
         return sac+(rubis_au_sol // nb_joueurs_sortant_probable+1)
     
     
 def prise_risque(joueurs , mon_coffre):
     for j in joueurs:
-        if sum(j["coffre"])-sum(mon_coffre)>=10 :
+        if sum(j["coffre"])-sum(mon_coffre)>=10 : # J'AI MIS L'ECART A 10 POUR L'INSTANT CELA POURRAIT CHANGER AVEC LES TEST
             return True
         else: 
             return False
@@ -220,8 +220,8 @@ def prise_risque(joueurs , mon_coffre):
 
 
 
-
-def compte_rubis_sorti(defausse):
+#  FONCTION QUI COMPTE COMBIEN DE CARTE RUBIS SONT SORTI
+def compte_rubis_sorti(defausse): 
     nb=0
     for i in defausse:
         if i in rubis_jeu:
