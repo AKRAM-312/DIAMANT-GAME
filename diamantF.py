@@ -183,3 +183,79 @@ def nombre_joueurs_sorti(joueurs):
         if j["is_active"]==False : 
             nb+=1
     return nb
+
+# probabilité de mourir , proba de survie -> 1-proba_mort
+def proba_mort(defausse , carte_rest):
+    nb=0
+    for j in defausse :
+        if j in piege:
+            for i in carte_rest:
+                if i==j :
+                    nb+=1
+    return nb/len(carte_rest)
+    
+
+def calcul_gain_possible( sac , rubis_au_sol , relique_de_cote , nb_joueurs_sortant_probable ):
+
+    if nb_joueurs_sortant_probable==0 :
+        gain_relique=0
+        if len(relique_de_cote)>=1:
+            for j in range(len(relique_de_cote)):
+                if len(relique_de_cote[j])== 3:
+                    gain_relique+=int(relique_de_cote[j][2])
+                else:
+                    gain_relique+= ( int(relique_de_cote[j][2])*10 + int(relique_de_cote[j][3]) )
+        return sac+rubis_au_sol+gain_relique 
+    else:
+        return sac+(rubis_au_sol // nb_joueurs_sortant_probable+1)
+    
+    
+def prise_risque(joueurs , mon_coffre):
+    for j in joueurs:
+        if sum(j["coffre"])-sum(mon_coffre)>=10 :
+            return True
+        else: 
+            return False
+
+
+
+
+
+def compte_rubis_sorti(defausse):
+    nb=0
+    for i in defausse:
+        if i in rubis_jeu:
+            nb+=1
+    return nb
+
+def estimation_sorti_joueurs(joueurs , defausse , num_manche , rubis_au_sol ,relique_de_cote , nb_joueurs_actif):
+    
+    nb_joueurs_actif_sauf=nb_joueurs_actif-1
+    
+    if compte_nb_piege(defausse) ==0 :
+        return 0
+    
+    if compte_nb_piege(defausse)==1 or len((defausse))<4:
+        return 0 # FALSE ---> ON ESTIME QU'AUCUN JOUEUR NE SORTIRA
+    
+    if compte_nb_piege(defausse)>=3:
+        return nb_joueurs_actif_sauf
+    
+    if compte_rubis_sorti(defausse)>=5:# ICI ON ESTIME QUE LES AUTRES JOUEURS NE SONT PAS TROP GOURMAND
+        return 1 
+    
+    if rubis_au_sol > 6 and len(relique_de_cote)>=1  :
+        return 1
+    
+    
+    
+    return 0
+
+    
+
+        
+        
+        
+        
+        
+            
