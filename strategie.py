@@ -1,5 +1,5 @@
 import diamantF as df
-
+import random
 
 
 
@@ -60,24 +60,30 @@ class strat_abs :
         nb_joueurs_actif
             ):
         if df.prise_risque(les_joueurs , mon_coffre , id_manche)==True:
-            if df.proba_mort <0.3:
+            if df.proba_mort(defausse , tas_tri) <0.7:
             
                 nb_joueurs_sort=df.estimation_sorti_joueurs(les_joueurs ,defausse ,id_manche , rubis_au_sol , relique_de_cote ,nb_joueurs_actif)
             
-                if df.calcul_gain_possible(mon_sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort) >= 25 :
+                if df.calcul_gain_possible(mon_sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort) >= 30 :
                     return False
                 else: 
                     return True
             else : 
                 return False
         else:
-            if df.proba_mort(defausse , tas_tri) <0.6:
+            if df.proba_mort(defausse , tas_tri) <0.4:
             
                 nb_joueurs_sort=df.estimation_sorti_joueurs(les_joueurs ,defausse ,id_manche , rubis_au_sol , relique_de_cote ,nb_joueurs_actif)
             
-                if df.calcul_gain_possible(mon_sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort) >= 17 :
+                if df.calcul_gain_possible(mon_sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort) >=25 :
                     return False
                 else: 
                     return True
             else : 
                 return False
+
+
+
+
+
+    
