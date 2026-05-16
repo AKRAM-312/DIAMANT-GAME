@@ -84,8 +84,9 @@ def continu_strat(joueurs , nb_joueur , joueurs_sorti , rubis_au_sol,num_manche 
                 continu=ma_strat.ambitieux(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
             elif joueurs[i]["strat"]=="suis":
                 continu=ma_strat.suis(joueurs[i]["coffre"] , joueurs[i]["sac"] , rubis_au_sol ,num_manche ,joueurs,cartes_jeu ,defausse)
-            else:
+            elif joueurs[i]["strat"]=="abs":
                 continu=strat_abs.play(joueurs[i]["coffre"] , joueurs[i]["sac"],rubis_au_sol , num_manche , joueurs , cartes_jeu , defausse , relique_de_cote ,nb_joueur)
+            
             if continu == False or continu=="Non" :
                 joueurs_sorti.append(joueurs[i])
                 nb_joueur-=1
@@ -189,6 +190,8 @@ def nombre_joueurs_sorti(joueurs):
 # probabilité de mourir , proba de survie -> 1-proba_mort
 def proba_mort(defausse , carte_rest):
     nb=0
+    if len(carte_rest)==0:
+        return 0
     for j in defausse :
         if j in piege:
             for i in carte_rest:
@@ -215,10 +218,9 @@ def calcul_gain_possible( sac , rubis_au_sol , relique_de_cote , nb_joueurs_sort
 def prise_risque(joueurs , mon_coffre , id_manche):
     if(id_manche == 5):
         for j in joueurs:
-            if sum(j["coffre"])-sum(mon_coffre)>=10  : # J'AI MIS L'ECART A 10 POUR L'INSTANT CELA POURRAIT CHANGER AVEC LES TEST
+            if sum(j["coffre"])-sum(mon_coffre)>=20  : # J'AI MIS L'ECART A 20 POUR L'INSTANT CELA POURRA etre CHANGER AVEC LES TEST
              return True
-            else: 
-                return False
+    return False
 
 
 
@@ -235,10 +237,10 @@ def estimation_sorti_joueurs(joueurs , defausse , num_manche , rubis_au_sol ,rel
     
     nb_joueurs_actif_sauf=nb_joueurs_actif-1
     
-    if compte_nb_piege(defausse) ==0 :
+    if compte_nb_piege(defausse) ==0 or len((defausse))<4:
         return 0
     
-    if compte_nb_piege(defausse)==1 or len((defausse))<4:
+    if compte_nb_piege(defausse)==1 :
         return 0 # FALSE ---> ON ESTIME QU'AUCUN JOUEUR NE SORTIRA
     
     if compte_nb_piege(defausse)>=3:
